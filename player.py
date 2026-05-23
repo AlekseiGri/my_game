@@ -5,6 +5,7 @@ import pygame
 from assets import get_player_sprite
 from settings import (
     GRAVITY,
+    JUMP_CUT_VELOCITY,
     JUMP_VELOCITY,
     PLAYER_SIZE,
     PLAYER_SPEED,
@@ -41,6 +42,10 @@ class Player:
             self.on_ground = False
             return True
         return False
+
+    def cut_jump(self) -> None:
+        if self.vel_y < JUMP_CUT_VELOCITY:
+            self.vel_y = JUMP_CUT_VELOCITY
 
     def update(self, tiles: list[pygame.Rect]) -> None:
         self.vel_y += GRAVITY

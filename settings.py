@@ -10,6 +10,7 @@ PLAYER_SIZE: int = 32
 PLAYER_COLOR: tuple[int, int, int] = (255, 0, 0)
 PLAYER_SPEED: int = 5
 JUMP_VELOCITY: int = -15
+JUMP_CUT_VELOCITY: int = -7
 GRAVITY: int = 1
 
 TILE_COLOR: tuple[int, int, int] = (100, 200, 100)

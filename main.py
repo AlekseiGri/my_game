@@ -98,6 +98,9 @@ def main() -> None:
                             play_sound(sounds["jump"])
                     elif state in (STATE_GAME_OVER, STATE_WIN):
                         state = STATE_TITLE
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE and state == STATE_PLAYING:
+                    player.cut_jump()
 
         if state == STATE_PLAYING:
             keys = pygame.key.get_pressed()

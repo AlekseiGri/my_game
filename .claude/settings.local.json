@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(python -c \"import pygame; print\\(pygame.version.ver\\)\")"
+    ]
+  }
+}

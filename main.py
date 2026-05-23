@@ -70,7 +70,21 @@ def main() -> None:
         "coin": load_sound("coin.wav"),
         "death": load_sound("death.wav"),
         "win": load_sound("win.wav"),
+        "lose": load_sound("Lose.ogg"),
     }
+
+    music_paths: dict[str, Path] = {}
+    if pygame.mixer.get_init() is not None:
+        sounds_dir = Path(__file__).parent / "assets" / "sounds"
+        for state_name, filename in [
+            (STATE_TITLE, "main_menu.wav"),
+            (STATE_GAME_OVER, "lose.ogg"),
+            (STATE_PLAYING, "game_during.mp3"),
+        ]:
+            p = sounds_dir / filename
+            if p.exists():
+                music_paths[state_name] = p
+    current_music_state: str | None = None
 
     state = STATE_TITLE
     level_index = 0
@@ -143,6 +157,19 @@ def main() -> None:
                     level, player, enemies, coins, camera = load_level(level_index)
 
             camera.update(player.rect)
+
+        desired_music_state = state if state in music_paths else None
+        if desired_music_state != current_music_state:
+            if desired_music_state is None:
+                pygame.mixer.music.stop()
+            else:
+                try:
+                    pygame.mixer.music.load(str(music_paths[desired_music_state]))
+                    pygame.mixer.music.set_volume(0.5)
+                    pygame.mixer.music.play(loops=-1)
+                except pygame.error:
+                    pass
+            current_music_state = desired_music_state
 
         screen.fill(BG_COLOR)
 

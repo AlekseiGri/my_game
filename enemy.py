@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 import pygame
 
-from assets import get_enemy_sprite
+from assets import get_enemy_left_sprite, get_enemy_right_sprite
 from settings import ENEMY_SIZE, ENEMY_SPEED, GRAVITY
 
 if TYPE_CHECKING:
@@ -14,7 +14,8 @@ class Enemy:
         self.rect = pygame.Rect(x, y, ENEMY_SIZE, ENEMY_SIZE)
         self.vel_x: int = ENEMY_SPEED
         self.vel_y: int = 0
-        self.sprite = get_enemy_sprite()
+        self.sprite_right = get_enemy_right_sprite()
+        self.sprite_left = get_enemy_left_sprite()
 
     def update(self, tiles: list[pygame.Rect]) -> None:
         self.vel_y += GRAVITY
@@ -49,4 +50,5 @@ class Enemy:
                 self.vel_x = -self.vel_x
 
     def draw(self, surface: pygame.Surface, camera: "Camera") -> None:
-        surface.blit(self.sprite, camera.apply(self.rect))
+        sprite = self.sprite_right if self.vel_x >= 0 else self.sprite_left
+        surface.blit(sprite, camera.apply(self.rect))
